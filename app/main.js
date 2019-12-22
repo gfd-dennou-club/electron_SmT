@@ -3,6 +3,7 @@ const {app, BrowserWindow, dialog,Menu} = require('electron');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let subWindow;
 function createWindow () {
     // Create the browser window.
     mainWindow = new BrowserWindow({width: 1096, height: 680});
@@ -16,6 +17,7 @@ function createWindow () {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         mainWindow = null;
+        subWindow = null;
     });
     mainWindow.webContents.on('will-prevent-unload', (event) => {
         const choice = dialog.showMessageBox(mainWindow, {
@@ -32,11 +34,10 @@ function createWindow () {
         if (leave) {
             event.preventDefault();
         }
-        // app.quit();
     });
 }
 function initWindowMenu(){
-    const exec = require('child_process').exec;
+    
     const template = [
         {
             label: 'View',
@@ -51,14 +52,9 @@ function initWindowMenu(){
             submenu: [
                 {
                     label: '書き込み',
-                    click (){  exec('cd app & cd esp & cd 05 & wsl export IDF_PATH=/mnt/c/Users/zasa/source/repos/my_electron/esp/esp-idf; export PATH="/mnt/c/Users/zasa/source/repos/my_electron/esp/xtensa-esp32-elf/bin:$PATH";export PATH="/home/zasa/.rbenv/bin:$PATH";eval "$(rbenv init -)"; make flash', (err, stdout, stderr) => {
-                        if (err) {
-                            console.error(`[ERROR] ${err}`);
-                            return;
-                        }
-                        console.log(`stdout: ${stdout}`);
-                        console.log(`stderr: ${stderr}`);
-                    });
+                    click (){
+                        subWindow = new BrowserWindow({width: 1096, height: 680});
+                        subWindow.loadFile('return.html');
                     }
                 }
             ]
@@ -74,7 +70,7 @@ function initWindowMenu(){
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
     createWindow();
-    // initWindowMenu();
+    initWindowMenu();
 });
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
