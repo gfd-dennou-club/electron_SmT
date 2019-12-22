@@ -32,20 +32,33 @@ function createWindow () {
         if (leave) {
             event.preventDefault();
         }
+        // app.quit();
     });
 }
 function initWindowMenu(){
     const exec = require('child_process').exec;
     const template = [
         {
+            label: 'View',
+            submenu: [
+                { role: 'reload' },
+                { role: 'forcereload' },
+                { role: 'toggledevtools' }
+            ]
+        },
+        {
             label: 'esp32',
             submenu: [
                 {
                     label: '書き込み',
-                    click () {  exec('cd esp & cd 05 & wsl export IDF_PATH=/mnt/c/Users/zasa/source/repos/my_electron/esp/esp-idf; export PATH="/mnt/c/Users/zasa/source/repos/my_electron/esp/xtensa-esp32-elf/bin:$PATH";export PATH="/home/zasa/.rbenv/bin:$PATH";eval "$(rbenv init -)"; make flash', (err, stdout, stderr) => {
-                                if (err) { console.log(err); }
-                                console.log(stdout);
-                                });
+                    click (){  exec('cd app & cd esp & cd 05 & wsl export IDF_PATH=/mnt/c/Users/zasa/source/repos/my_electron/esp/esp-idf; export PATH="/mnt/c/Users/zasa/source/repos/my_electron/esp/xtensa-esp32-elf/bin:$PATH";export PATH="/home/zasa/.rbenv/bin:$PATH";eval "$(rbenv init -)"; make flash', (err, stdout, stderr) => {
+                        if (err) {
+                            console.error(`[ERROR] ${err}`);
+                            return;
+                        }
+                        console.log(`stdout: ${stdout}`);
+                        console.log(`stderr: ${stderr}`);
+                    });
                     }
                 }
             ]
@@ -55,12 +68,13 @@ function initWindowMenu(){
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
 }
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
     createWindow();
-    initWindowMenu();
+    // initWindowMenu();
 });
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
