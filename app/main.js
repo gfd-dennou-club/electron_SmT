@@ -53,8 +53,15 @@ function initWindowMenu(){
                 {
                     label: '書き込み',
                     click (){
-                        subWindow = new BrowserWindow({width: 1096, height: 680});
-                        subWindow.loadFile('return.html');
+                        subWindow = new BrowserWindow({width: 420, height: 280});
+                        subWindow.loadFile('flash.html');
+                    }
+                },
+                {
+                    label: 'クリーン',
+                    click (){
+                        subWindow = new BrowserWindow({width: 420, height: 280});
+                        subWindow.loadFile('clean.html');
                     }
                 }
             ]
