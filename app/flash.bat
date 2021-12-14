@@ -3,4 +3,4 @@
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 cd ./app/esp
-make flash
+make spiffs

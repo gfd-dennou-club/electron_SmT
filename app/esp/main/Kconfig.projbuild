@@ -1,53 +1,150 @@
-menu "Example Configuration"
-
-    config ENT_WIFI_SSID
-        string "ENT WiFi SSID"
-        default "wpa2_test"
+menu "IoTeX ESP32 mrubyc Configuration"
+    config USE_ESP32_FIRMWAREFLASH
+        bool "USE ESP32 Firmware Flash"
+        default n
+        
+    config USE_ESP32_GPIO
+        bool "USR ESP32 GPIO"
+        default y
         help
-            SSID (network name) for the example to connect to.
+            use GPIO function?
 
-    config ENT_EAP_METHOD
-        int "ENT EAP METHOD"
-        default 1
+    config USE_ESP32_GPIO_PERIPHERALS_SHT75
+        bool "PERIPHERAL: Temperature/Humidity Sensor SENSIRION SHT75"
+	depends on USE_ESP32_GPIO
+        default n
         help
-            EAP method (TLS, PEAP or TTLS) for the example to use.
-            TLS: 0, PEAP: 1, TTLS: 2
+            use Temperature/Humidity sensor CENSIRION SHT75?
 
-    config ENT_EAP_ID
-        string "ENT EAP ID"
-        default "example@espressif.com"
+    config USE_ESP32_LEDC
+        bool "USR ESP32 PWM (LEDC)"
+        default y
         help
-            Identity in phase 1 of EAP procedure.
+            use PWM (LEDC) function?
 
-    config ENT_EAP_USERNAME
-        string "ENT EAP USERNAME"
-        default "espressif"
+    config USE_ESP32_ADC
+        bool "USR ESP32 ADC"
+        default y
         help
-            Username for EAP method (PEAP and TTLS).
+            use ADC function?
 
-    config ENT_EAP_PASSWORD
-        string "ENT EAP PASSWORD"
-        default "test11"
+    config USE_ESP32_I2C
+        bool "USR ESP32 I2C"
+        default y
         help
-            Password for EAP method (PEAP and TTLS).
+            use I2C function?
 
-    config PSK_WIFI_SSID
-        string "PSK WiFi SSID"
-        default "myssid"
+    config USE_ESP32_I2C_PERIPHERALS_AQM0802A
+        bool "PERIPHERAL: LCD Display AQM0802A"
+	depends on USE_ESP32_I2C
+        default n
         help
-            SSID (network name) for the example to connect to.
+            use LCD Display AQM0802A?
 
-    config PSK_WIFI_PASSWORD
-        string "PSK WIFI PASSWORD"
-        default "mypassword"
+    config USE_ESP32_I2C_PERIPHERALS_RC8035SA
+        bool "PERIPHERAL: Real Time Clock RC8035SA"
+	depends on USE_ESP32_I2C
+        default n
         help
-        	  Password for connecting to network
+            use Real Time Clock RC8035SA?
 
-    config SECURITY_MODE
-        int "NETWORK SECURITY MODE"
-        default 1
+    config USE_ESP32_I2C_PERIPHERALS_SGP30
+        bool "PERIPHERAL: eCO2 sensor SENSIRION SGP30"
+	depends on USE_ESP32_I2C
+        default n
         help
-            Specify current network security (WPA2 Enterprise or Personal) to use.
-            ENTERPRISE: 0, PERSONAL: 1
+            use eCO2 sensor SENSIRION SGP30?
+
+    config USE_ESP32_I2C_PERIPHERALS_SCD30
+        bool "PERIPHERAL: CO2 sensor SENSIRION SCD30"
+	depends on USE_ESP32_I2C
+        default n
+        help
+            use CO2 sensor SENSIRION SCD30?
+
+    config USE_ESP32_I2C_PERIPHERALS_VL53L0X
+        bool "PERIPHERAL: Time of Flight ranging sensor SENSIRION VL53L0X"
+	depends on USE_ESP32_I2C
+        default n
+        help
+            use Time of Flight ranging sensor CENSIRION VL53L0X?
+
+    config USE_ESP32_I2C_PERIPHERALS_SHT3X
+        bool "PERIPHERAL: Temperature/Humidity sensor SENSIRION SHT3X"
+	depends on USE_ESP32_I2C
+        default n
+        help
+            use Temperature/Humidity sensor CENSIRION SHT3X?
+
+    config USE_ESP32_I2C_PERIPHERALS_BMP280
+        bool "PERIPHERAL: Temperature/Pressure sensor SENSIRION BMP280"
+	depends on USE_ESP32_I2C
+        default n
+        help
+            use Temperature/Pressure sensor CENSIRION BMP280?
+
+    config USE_ESP32_SPI
+        bool "USR ESP32 SPI"
+        default n
+        help
+            use SPI function?
+
+    config USE_ESP32_SPI_PERIPHERALS_ILI934X
+        bool "PERIPHERAL: LCD Display ILI934X"
+	depends on USE_ESP32_SPI
+        default n
+        help
+            use LCD Display ILI934X?
+
+    config USE_ESP32_SPI_SD
+        bool "USR ESP32 SPI_SD"
+        default n
+        help
+            use SPI SD function?
+
+    config USE_ESP32_UART
+        bool "USR ESP32 UART"
+        default n
+        help
+            use UART function?
+
+    config USE_ESP32_WIFI
+        bool "USR ESP32 WIFI"
+        default y
+        help
+            use WIFI function?
+
+    config USE_ESP32_SNTP
+        bool "SERVICE: SNTP"
+	depends on USE_ESP32_WIFI
+        default y
+        help
+            use SNTP function?
+
+    config USE_ESP32_HTTP_CLIENT
+        bool "SERVICE: HTTP_CLIENT"
+	depends on USE_ESP32_WIFI	
+        default y
+        help
+            use HTTP_CLIENT function?
+
+    config USE_ESP32_SLEEP
+        bool "USE DEEP SLEEP"
+        default n
+        help
+            use DEEP SLEEP function?
+
+    config USE_ESP32_BLE
+        bool "USE BLE (Bluetooth Low Energy)"
+        default n
+        help
+            use BLE (Bluetooth Low Energy) function?
+
+    config ENABLE_MULTITASK
+        bool "ENABLE MULTI-TASK"
+        default n
+        help
+            enable multi-task mode?
 
 endmenu
+

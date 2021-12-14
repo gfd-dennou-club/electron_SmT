@@ -5,11 +5,6 @@
 
 COMPONENT_DEPENDS := mrubyc
 COMPONENT_EXTRA_CLEAN = SRCFILES
-COMPONENT_EMBED_TXTFILES := howsmyssl_com_root_cert.pem
-COMPONENT_EMBED_TXTFILES := wpa2_ca.pem
-COMPONENT_EMBED_TXTFILES += wpa2_client.crt
-COMPONENT_EMBED_TXTFILES += wpa2_client.key
-
 
 MRBC = mrbc
 SRCDIR = $(PROJECT_PATH)/mrblib
@@ -24,3 +19,4 @@ $(SRCDIR)/%.h: $(SRCDIR)/%.rb
 		fi
 	@echo $(MRBC) -E -B $(basename $(notdir $@)) -o $(subst $(SRCDIR),$(COMPONENT_BUILD_DIR),$@) $^
 	$(MRBC) -E -B $(basename $(notdir $@)) -o $(subst $(SRCDIR),$(COMPONENT_BUILD_DIR),$@) $^
+
