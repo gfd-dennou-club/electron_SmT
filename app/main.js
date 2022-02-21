@@ -1,12 +1,22 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, dialog,Menu} = require('electron');
+const {app, BrowserWindow, dialog,Menu, ipcMain} = require('electron');
+const path = require('path');
+const { exec } = require('child_process');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 let subWindow;
 function createWindow () {
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 1096, height: 680});
+    mainWindow = new BrowserWindow({
+        width: 1096, 
+        height: 680,
+        webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: true,
+            preload: path.join(__dirname, 'preload.js')
+        }
+    });
     // and load the index.html of the app.
     mainWindow.loadFile('index.html');
     // Open the DevTools.
@@ -19,7 +29,7 @@ function createWindow () {
         mainWindow = null;
         subWindow = null;
     });
-    mainWindow.webContents.on('will-prevent-unload', (event) => {
+    /*mainWindow.webContents.on('will-prevent-unload', (event) => {
         const choice = dialog.showMessageBox(mainWindow, {
             type: 'question',
             buttons: ['終了する', '終了しない'],
@@ -34,7 +44,7 @@ function createWindow () {
         if (leave) {
             event.preventDefault();
         }
-    });
+    });*/
 }
 function initWindowMenu(){
     
@@ -47,7 +57,7 @@ function initWindowMenu(){
                 { role: 'toggledevtools' }
             ]
         },
-        {
+        /*{
             label: 'esp32',
             submenu: [
                 {
@@ -63,13 +73,25 @@ function initWindowMenu(){
                         subWindow = new BrowserWindow({width: 420, height: 280});
                         subWindow.loadFile('clean.html');
                     }
-                }
+                },
             ]
-        }
+        },*/
     ]
  
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
+
+    //const canvas = document.createElement('canvas');
+
+    //canvas.width = 600;
+    //canvas.height = 400;
+
+    //document.body.appendChild(canvas);
+
+    //const ctx = canvas.getContext('2d');
+
+    //ctx.strokeRect(0,0,80,80);
+    //ctx.fillRect(100,0,80,80);
 }
 
 // This method will be called when Electron has finished
@@ -92,6 +114,48 @@ app.on('activate', function () {
     // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) {
         createWindow();
+    }
+});
+
+//greenflag-clickチャンネルがメッセージを受信したとき
+ipcMain.on('greenflag-click', (event,arg) => {
+    if (arg == 'Go') {
+        subWindow = new BrowserWindow({
+            width: 520, 
+            height: 280,
+            webPreferences: {
+                nodeIntegration: false,
+                contextIsolation: true,
+                preload: path.join(__dirname, 'preload.js')
+            }
+        });
+        //subWindow.loadFile('flash.html');
+        subWindow.loadFile('exec-result.html')
+            .then(() => {
+                //コマンドcd app & flash.batの実行
+                exec('cd ./app & ./app/flash.bat', (error,stdout,stderr) => {
+                    /*if(stderr) {
+                        // render.jsのexec-finishチャンネルにsend
+                        subWindow.webContents.send('exec-finish', stderr + stdout + "<br><<実行終了>>");
+                        log = stderr + stdout;
+                    }
+                    else {
+                        // render.jsのexec-finishチャンネルにsend
+                        subWindow.webContents.send('exec-finish', stdout + "<br><<実行終了>>");
+                        log = stdout;
+                    }
+
+                    if(!fs.existsSync('./log')) {
+                        fs.mkdirSync('log');
+                    }
+                    time = new Date();
+                    now = String(time.getFullYear()) + String(time.getMonth()+1) + String(time.getDate());
+                    fs.appendFile(`log/${now}_testlog.txt`, time + '\n' + log + '\n', (err, stdout) => {
+                        if(err) console.log(err);//ファイル書き込みに関するエラー
+                        else console.log('write end');
+                    });*/
+                })
+            });
     }
 });
 // In this file you can include the rest of your app's specific main process

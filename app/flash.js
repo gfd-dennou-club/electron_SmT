@@ -1,7 +1,7 @@
-const { spawn } = require('child_process');
+const { exec } = require('child_process');
 const div = document.getElementById('box11');
 const p = document.createElement('p');
-const ret = spawn('bash', ['app/flash.bat'] ,{ shell: true}); 
+const ret = exec('bash', ['app/flash.bat'] ,{ shell: true}); 
 ret.stderr.on('data', (err) => {
     console.log(err); 
     p.textContent += err;
