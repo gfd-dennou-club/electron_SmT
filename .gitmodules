@@ -1,0 +1,3 @@
+[submodule "app/esp"]
+	path = app/esp
+	url = https://github.com/sugiymki/mrubyc-esp32.git
