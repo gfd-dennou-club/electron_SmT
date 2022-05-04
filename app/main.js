@@ -133,7 +133,7 @@ ipcMain.on('greenflag-click', (event,arg) => {
         subWindow.loadFile('exec-result.html')
             .then(() => {
                 //コマンドcd app & flash.batの実行
-                exec('cd ./app & ./app/flash.bat', (error,stdout,stderr) => {
+                exec('bash ./app/flash.bat', (error,stdout,stderr) => {
                     /*if(stderr) {
                         // render.jsのexec-finishチャンネルにsend
                         subWindow.webContents.send('exec-finish', stderr + stdout + "<br><<実行終了>>");
