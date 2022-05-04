@@ -2,6 +2,11 @@
 const {app, BrowserWindow, dialog,Menu, ipcMain} = require('electron');
 const path = require('path');
 const { exec } = require('child_process');
+const fs = require('fs');
+let now;
+let time;
+let log;
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -134,26 +139,7 @@ ipcMain.on('greenflag-click', (event,arg) => {
             .then(() => {
                 //コマンドcd app & flash.batの実行
                 exec('bash ./app/flash.bat', (error,stdout,stderr) => {
-                    /*if(stderr) {
-                        // render.jsのexec-finishチャンネルにsend
-                        subWindow.webContents.send('exec-finish', stderr + stdout + "<br><<実行終了>>");
-                        log = stderr + stdout;
-                    }
-                    else {
-                        // render.jsのexec-finishチャンネルにsend
-                        subWindow.webContents.send('exec-finish', stdout + "<br><<実行終了>>");
-                        log = stdout;
-                    }
-
-                    if(!fs.existsSync('./log')) {
-                        fs.mkdirSync('log');
-                    }
-                    time = new Date();
-                    now = String(time.getFullYear()) + String(time.getMonth()+1) + String(time.getDate());
-                    fs.appendFile(`log/${now}_testlog.txt`, time + '\n' + log + '\n', (err, stdout) => {
-                        if(err) console.log(err);//ファイル書き込みに関するエラー
-                        else console.log('write end');
-                    });*/
+		    subWindow.webContents.send('exec-finish', stdout + "<br><<実行終了>>");
                 })
             });
     }
