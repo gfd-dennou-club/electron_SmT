@@ -1,0 +1,1 @@
+mousepad  ~/SmT/master.rb
