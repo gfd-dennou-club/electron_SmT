@@ -1,3 +1,3 @@
 #!/bin/bash
 cd ./app/esp
-make all
+make spiffs 
