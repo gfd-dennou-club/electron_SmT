@@ -1,1 +1,1 @@
-mousepad  ~/SmT/master.rb
+code ~/SmT/master.rb ~/SmT/slave.rb
